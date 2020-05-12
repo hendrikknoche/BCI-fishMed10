@@ -6,11 +6,11 @@ library(gsheet)
 pd<-gsheet2tbl('https://docs.google.com/spreadsheets/d/19oiOujc73TEMqXbrQVdUmuttcx3M-0MnbajXwKrMxrk/edit?usp=sharing')
 
 #import of log files
-df = readbulk::read_bulk('logFiles', sep=',', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
+df = readbulk::read_bulk('logFilesData', sep=',', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
 
 # colnames(df)<-c(cols[2:length(cols)-1])
 df$PID<-as.factor(substr(df$File,1,2))
-# df$condition<-as.factor(substr(df$File,4,5))
+df$condition<-as.factor(substr(df$File,4,5))
 #further rows missing depending on which factors are in the filename
 col<-ncol(df)
 #move important columns up to the front
