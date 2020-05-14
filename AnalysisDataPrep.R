@@ -2,6 +2,7 @@ library(tidyverse)
 library(readbulk)
 library(gsheet)
 library(lubridate)
+library(reshape2)
  
 #put your google sheet link from the questionnaire here:
 pd<-gsheet2tbl('https://docs.google.com/spreadsheets/d/19oiOujc73TEMqXbrQVdUmuttcx3M-0MnbajXwKrMxrk/edit?usp=sharing')
@@ -10,7 +11,9 @@ pd<-gsheet2tbl('https://docs.google.com/spreadsheets/d/19oiOujc73TEMqXbrQVdUmutt
 df = readbulk::read_bulk('cleanedLogFiles', sep=',', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
 pr = readbulk::read_bulk('Questionnaire data', sep=',', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
 
-prlong<-pr%>%
+#maybe not needed but just as a demontration how to quickly reshape data dcast does the reverse
+prlong<-pr%>%melt(id.vars=c("Timestamp","Condition","Participant.no."))
+
 
 # colnames(df)<-c(cols[2:length(cols)-1])
 df$PID<-as.factor(substr(df$File,1,2))
