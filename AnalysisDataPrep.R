@@ -8,6 +8,9 @@ pd<-gsheet2tbl('https://docs.google.com/spreadsheets/d/19oiOujc73TEMqXbrQVdUmutt
 
 #import of log files
 df = readbulk::read_bulk('cleanedLogFiles', sep=',', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
+pr = readbulk::read_bulk('Questionnaire data', sep=',', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
+
+prlong<-pr%>%
 
 # colnames(df)<-c(cols[2:length(cols)-1])
 df$PID<-as.factor(substr(df$File,1,2))
