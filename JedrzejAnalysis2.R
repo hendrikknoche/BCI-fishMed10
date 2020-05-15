@@ -27,12 +27,29 @@ data <- data %>% rename("PC_AF" = "I.felt.in.control.when.the.big.clamp.prevente
 data <- data %>% rename("FR_AF" = "I.felt.frustrated.when.the.big.clamp.prevented.the.fish.from.swimming.away.from.me.")
 
 
+Blame_FR <- data[,c("ID","Condition", "Blame", "FR_Sham", "FR_AS", "FR_AF")]
+Blame_FR$FR_Sham<-ifelse(is.na(Blame_FR$FR_AS), Blame_FR$FR_Sham, Blame_FR$FR_AS)
+Blame_FR$FR_AS<-NULL
+Blame_FR$FR_Sham<-ifelse(is.na(Blame_FR$FR_AF), Blame_FR$FR_Sham, Blame_FR$FR_AF)
+Blame_FR$FR_AF<-NULL
+#Blame_FR<-reshape(Blame_FR, idvar='FR_Sham', timevar='ID', direction='wide')
+Blame_FR%>%filter(!is.na(FR_Sham))%>%pivot_wider(names_from = "Blame", values_from = "FR_Sham")
+
+
+
+
+
+
+
+
+
+
 # names(data)[20] <- "FR_AS"
 
 check <- data %>% 
-  select(c("ID", "FR_Sham", "FR_AS", "FR_AF"))%>%melt(id.vars="ID")#%>%
-  filter(!is.na(value))%>%
-  #pivot_wider(names_from = variable, values_from = value)%>%
+  select(c("ID", "FR_Sham", "FR_AS", "FR_AF"))%>%melt(id.vars="ID")%>%
+  filter(!is.na(value))#%>%
+  pivot_wider(names_from = variable, values_from = value)%>%
   #select(-ID)%>%as.matrix()%>%
   #friedman.test()
 
@@ -53,12 +70,6 @@ Blame_FR <- data %>%
  # select(-ID)%>%as.matrix()
  # friedman.test()%>%
 
-Blame_FR <- data[,c("ID", "Blame", "FR_Sham", "FR_AS", "FR_AF")]
-Blame_FR$FR_Sham<-ifelse(is.na(Blame_FR$FR_AS), Blame_FR$FR_Sham, Blame_FR$FR_AS)
-Blame_FR$FR_AS<-NULL
-Blame_FR$FR_Sham<-ifelse(is.na(Blame_FR$FR_AF), Blame_FR$FR_Sham, Blame_FR$FR_AF)
-Blame_FR$FR_AF<-NULL
-Blame_FR<-reshape(Blame_FR, idvar='FR_Sham', timevar='ID', direction='wide')
 
 
 
