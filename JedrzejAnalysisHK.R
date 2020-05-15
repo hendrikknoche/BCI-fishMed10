@@ -33,7 +33,7 @@ data%>%select(c("ID","Condition", "C_FR_R":"C_FR_E","O_PC_PAM3":"O_FR_PAM4"))%>%
   cols = c("C_FR_R":"O_FR_PAM4"),
   names_to = c("context","measure","rating"),
   values_to = "value"
-)
+)%>%view()
 
 
 
@@ -57,7 +57,6 @@ data %>%
 
 data %>% 
   select(c("ID", "Blame","Condition", "FRPAM2", "FRPAM3", "FRPAM4"))%>%melt(id.vars=c("ID","Blame"))
-%>%
   filter(!is.na(value))%>%
   pivot_wider(names_from = variable, values_from = value)%>%
   select(-ID)%>%as.matrix()%>%

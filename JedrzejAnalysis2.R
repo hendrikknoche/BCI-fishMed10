@@ -1,6 +1,7 @@
 library(pgirmess)
 library(tidyverse)
 library(reshape2)
+library(MASS)
 
 #reads the datafile
 data = readbulk::read_bulk('Questionnaire data', sep=';', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
@@ -25,7 +26,8 @@ data <- data %>% rename("PC_AS" = "I.felt.in.control.when.when.my.character.reel
 data <- data %>% rename("FR_AS" = "I.felt.frustrated.when.my.character.reeled.the.fish.up.by.two.lanes.")
 data <- data %>% rename("PC_AF" = "I.felt.in.control.when.the.big.clamp.prevented.the.fish.from.swimming.away.from.me.")
 data <- data %>% rename("FR_AF" = "I.felt.frustrated.when.the.big.clamp.prevented.the.fish.from.swimming.away.from.me.")
-
+data$Blame<-ifelse(is.na(data$Blame),"neutral",data$Blame)
+data$Condition<-as.factor(data$Condition)
 
 Blame_FR <- data[,c("ID","Condition", "Blame", "FR_Sham", "FR_AS", "FR_AF")]
 Blame_FR$FR_Sham<-ifelse(is.na(Blame_FR$FR_AS), Blame_FR$FR_Sham, Blame_FR$FR_AS)
@@ -35,12 +37,17 @@ Blame_FR$FR_AF<-NULL
 #Blame_FR<-reshape(Blame_FR, idvar='FR_Sham', timevar='ID', direction='wide')
 Blame_FR%>%filter(!is.na(FR_Sham))%>%pivot_wider(names_from = "Blame", values_from = "FR_Sham")
 
+# summary(glm(FR_Sham ~ , data = Blame_FR, family = binomial))
+# summary(polr(factor(FR_Sham) ~ Condition * factor(Blame), data = Blame_FR, Hess=TRUE))
 
-
-
-
-
-
+t.test()
+D2<-Blame_FR[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="2")
+D3<-Blame_FR[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="3")
+D4<-Blame_FR[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="4")
+  wilcox.test(as.numeric(D2$FR_Sham) ~ D2$Blame)
+  wilcox.test(as.numeric(D3$FR_Sham) ~ D3$Blame)
+  wilcox.test(as.numeric(D4$FR_Sham) ~ D4$Blame)
+  
 
 
 
