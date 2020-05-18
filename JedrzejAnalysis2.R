@@ -2,6 +2,9 @@ library(pgirmess)
 library(tidyverse)
 library(reshape2)
 library(MASS)
+library(tidyr)
+library(car)
+library(ggplot2)
 
 #reads the datafile
 data = readbulk::read_bulk('Questionnaire data', sep=';', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
@@ -29,36 +32,155 @@ data <- data %>% rename("FR_AF" = "I.felt.frustrated.when.the.big.clamp.prevente
 data$Blame<-ifelse(is.na(data$Blame),"neutral",data$Blame)
 data$Condition<-as.factor(data$Condition)
 
-Blame_FR <- data[,c("ID","Condition", "Blame", "FR_Sham", "FR_AS", "FR_AF")]
-Blame_FR$FR_Sham<-ifelse(is.na(Blame_FR$FR_AS), Blame_FR$FR_Sham, Blame_FR$FR_AS)
-Blame_FR$FR_AS<-NULL
-Blame_FR$FR_Sham<-ifelse(is.na(Blame_FR$FR_AF), Blame_FR$FR_Sham, Blame_FR$FR_AF)
-Blame_FR$FR_AF<-NULL
-#Blame_FR<-reshape(Blame_FR, idvar='FR_Sham', timevar='ID', direction='wide')
-Blame_FR%>%filter(!is.na(FR_Sham))%>%pivot_wider(names_from = "Blame", values_from = "FR_Sham")
 
-# summary(glm(FR_Sham ~ , data = Blame_FR, family = binomial))
-# summary(polr(factor(FR_Sham) ~ Condition * factor(Blame), data = Blame_FR, Hess=TRUE))
 
-t.test()
-D2<-Blame_FR[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="2")
-D3<-Blame_FR[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="3")
-D4<-Blame_FR[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="4")
-  wilcox.test(as.numeric(D2$FR_Sham) ~ D2$Blame)
-  wilcox.test(as.numeric(D3$FR_Sham) ~ D3$Blame)
-  wilcox.test(as.numeric(D4$FR_Sham) ~ D4$Blame)
+#Means for the Estimate depending after which playthrough they were specified.
+Estimate_Playthrough <- data[,c("ID","Estimate","Playthrough_Order")]
+#Turn format of the data to wide
+Estimate_Playthrough <- spread(Estimate_Playthrough,Playthrough_Order, Estimate)
+Estimate_Playthrough$ID<-NULL
+summary(Estimate_Playthrough)
+friedman.test(as.matrix(Estimate_Playthrough))
+
+#Means for the FR depending on which playthrough they were specified.
+FR_Playthrough <- data[,c("ID","FR","Playthrough_Order")]
+#Boxplot for FR depending after which playthrough they were specified.
+FR_Playthrough_boxplot <- ggplot(FR_Playthrough, aes(as.character(Playthrough_Order), FR))
+FR_Playthrough_boxplot + geom_boxplot() + labs(x = as.character("Playthrough Order"), y = "Frustration")
+#Turn format of the data to wide
+FR_Playthrough <- spread(FR_Playthrough,Playthrough_Order, FR)
+FR_Playthrough$ID<-NULL
+summary(FR_Playthrough)
+friedman.test(as.matrix(FR_Playthrough))
+FR_Playthrough_boxplot <- ggplot()
+
+#Means for the PC depending after which playthrough they were specified.
+PC_Playthrough <- data[,c("ID","PC","Playthrough_Order")]
+#Boxplot for PC depending after which playthrough they were specified.
+PC_Playthrough_boxplot <- ggplot(PC_Playthrough, aes(as.character(Playthrough_Order), PC))
+PC_Playthrough_boxplot + geom_boxplot() + labs(x = as.character("Playthrough Order"), y = "Perceived Control")
+#Turn format of the data to wide
+PC_Playthrough <- spread(PC_Playthrough,Playthrough_Order, PC)
+PC_Playthrough$ID<-NULL
+summary(PC_Playthrough)
+friedman.test(as.matrix(PC_Playthrough))
+
+
+
+#???Wilcox test between R_PC and Estimate???
+R_PC_Estimate_data <- data[,c("ID","R_PC", "Estimate")]
+#Wilcox_R_PC_Estimate <- spread(R_PC_Estimate_data,Playthrough_Order, FR)
+wilcox.test()
+
+
+
+#Scatterplot between frustration and perceived control within all conditions
+scatter_FR_PC <-ggplot(data, aes(FR, PC))
+scatter_FR_PC + geom_point() + geom_smooth() + labs(x="Frustration", y="Perceived Control")
+
+#scatterplot between frustration and perceived control within Sham
+scatter_FR_PC_Sham_data <- data[,c("Condition","PC_Sham","FR_Sham")]
+scatter_FR_PC_Sham_data<- scatter_FR_PC_Sham_data%>%filter(!is.na(FR_Sham))
+scatter_FR_PC_Sham <-ggplot(scatter_FR_PC_Sham_data, aes(PC_Sham, FR_Sham))
+scatter_FR_PC_Sham + geom_point() + geom_smooth() + labs(x="Perceived Control", y="Frustration")
+
+#scatterplot between frustration and perceived control within AS
+scatter_FR_PC_AS_data <- data[,c("Condition","PC_AS","FR_AS")]
+scatter_FR_PC_AS_data<- scatter_FR_PC_AS_data%>%filter(!is.na(FR_AS))
+scatter_FR_PC_AS <-ggplot(scatter_FR_PC_AS_data, aes(PC_AS, FR_AS))
+scatter_FR_PC_AS + geom_point() + geom_smooth() + labs(x="Perceived control", y="Frustration")
+
+#scatterplot between frustration and perceived control within AF
+scatter_FR_PC_AF_data <- data[,c("Condition","PC_AF","FR_AF")]
+scatter_FR_PC_AF_data<- scatter_FR_PC_AF_data%>%filter(!is.na(FR_AF))
+scatter_FR_PC_AF <-ggplot(scatter_FR_PC_AF_data, aes(PC_AF, FR_AF))
+scatter_FR_PC_AF + geom_point() + geom_smooth() + labs(x="Perceived control", y="Frustration")
+
+
+
+#Did frustration with the PAMs depend on the Blame factor within individual PAMs
+Blame_FR_PAM <- data[,c("ID","Condition", "Blame", "FR_Sham", "FR_AS", "FR_AF")]
+#moving everything into one column
+Blame_FR_PAM$FR_Sham<-ifelse(is.na(Blame_FR_PAM$FR_AS), Blame_FR_PAM$FR_Sham, Blame_FR_PAM$FR_AS)
+Blame_FR_PAM$FR_AS<-NULL
+Blame_FR_PAM$FR_Sham<-ifelse(is.na(Blame_FR_PAM$FR_AF), Blame_FR_PAM$FR_Sham, Blame_FR_PAM$FR_AF)
+Blame_FR_PAM$FR_AF<-NULL
+#Blame_FR <- Blame_FR%>%filter(!is.na(FR_Sham))%>%pivot_wider(names_from = "Blame", values_from = "FR_Sham")
+B2<-Blame_FR_PAM[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="2")
+B3<-Blame_FR_PAM[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="3")
+B3 <- B3 %>% rename("FR_AS" = "FR_Sham")
+B4<-Blame_FR_PAM[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="4")
+B4 <- B4 %>% rename("FR_AF" = "FR_Sham")
+wilcox.test(as.numeric(B2$FR_Sham) ~ B2$Blame)
+wilcox.test(as.numeric(B3$FR_AS) ~ B3$Blame)
+wilcox.test(as.numeric(B4$FR_AF) ~ B4$Blame)
+
+
   
+#Did frustration depend on the Blame factor
+Blame_FR <- data[,c("Condition", "Blame", "FR")]
+#Control
+B_FR1<-Blame_FR[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="1")
+wilcox.test(as.numeric(B_FR1$FR) ~ B_FR1$Blame)
+#Sham
+B_FR2<-Blame_FR[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="2")
+wilcox.test(as.numeric(B_FR2$FR) ~ B_FR2$Blame)
+#AS
+B_FR3<-Blame_FR[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="3")
+wilcox.test(as.numeric(B_FR3$FR) ~ B_FR3$Blame)
+#AF
+B_FR4<-Blame_FR[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="4")
+wilcox.test(as.numeric(B_FR4$FR) ~ B_FR4$Blame)
 
 
 
-# names(data)[20] <- "FR_AS"
+#Did perceived control depend on the Blame factor
+Blame_PC <- data[,c("Condition", "Blame", "PC")]
+#Control
+B_PC1<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="1")
+wilcox.test(as.numeric(B_PC1$PC) ~ B_PC1$Blame)
+#Sham
+B_PC2<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="2")
+wilcox.test(as.numeric(B_PC2$PC) ~ B_PC2$Blame)
+#AS
+B_PC3<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="3")
+wilcox.test(as.numeric(B_PC3$PC) ~ B_PC3$Blame)
+#AF
+B_PC4<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="4")
+wilcox.test(as.numeric(B_PC4$PC) ~ B_PC4$Blame)
 
-check <- data %>% 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Friedman tests
+
+
+data %>% 
   select(c("ID", "FR_Sham", "FR_AS", "FR_AF"))%>%melt(id.vars="ID")%>%
-  filter(!is.na(value))#%>%
+  filter(!is.na(value))%>%
   pivot_wider(names_from = variable, values_from = value)%>%
-  #select(-ID)%>%as.matrix()%>%
-  #friedman.test()
+  select(-ID)%>%as.matrix()%>%
+  friedman.test()
 
 data %>% 
   select(c("ID", "FR_Sham", "FR_AS", "FR_AF"))%>%melt(id.vars="ID")%>%
@@ -71,18 +193,11 @@ data %>%
   select(c("ID", "Blame","Condition"))%>%pivot_wider(names_from = Condition, values_from = Blame)
 
 Blame_FR <- data %>% 
-  select(c("ID", "Blame","Condition", "FR_Sham", "FR_AS", "FR_AF"))#%>%melt(id.vars=c("ID","Blame"))%>%
- # filter(!is.na(value))%>%
-  #pivot_wider(names_from = variable, values_from = value)#%>%
- # select(-ID)%>%as.matrix()
- # friedman.test()%>%
-
-
-
-
-
-
-
+  select(c("ID", "Blame","Condition", "FR_Sham", "FR_AS", "FR_AF"))%>%melt(id.vars=c("ID","Blame"))%>%
+  filter(!is.na(value))%>%
+  pivot_wider(names_from = variable, values_from = value)%>%
+  select(-ID)%>%as.matrix()%>%
+  friedman.test()
 
 
 
