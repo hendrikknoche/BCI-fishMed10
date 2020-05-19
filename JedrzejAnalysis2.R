@@ -89,25 +89,25 @@ R_PC_Estimate_boxplot + geom_boxplot() + labs(x = "", y = "Normalized scores/est
 
 #Scatterplot between frustration and perceived control within all conditions
 scatter_FR_PC <-ggplot(data, aes(FR, PC))
-scatter_FR_PC + geom_point() + geom_smooth() + labs(x="Frustration", y="Perceived Control")
+scatter_FR_PC + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Frustration", y="Perceived Control")+theme_bw()
 
 #scatterplot between frustration and perceived control within Sham
 scatter_FR_PC_Sham_data <- data[,c("Condition","PC_Sham","FR_Sham")]
 scatter_FR_PC_Sham_data<- scatter_FR_PC_Sham_data%>%filter(!is.na(FR_Sham))
 scatter_FR_PC_Sham <-ggplot(scatter_FR_PC_Sham_data, aes(PC_Sham, FR_Sham))
-scatter_FR_PC_Sham + geom_point() + geom_smooth() + labs(x="Perceived Control", y="Frustration")
+scatter_FR_PC_Sham + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived Control", y="Frustration")+theme_bw()
 
 #scatterplot between frustration and perceived control within AS
 scatter_FR_PC_AS_data <- data[,c("Condition","PC_AS","FR_AS")]
 scatter_FR_PC_AS_data<- scatter_FR_PC_AS_data%>%filter(!is.na(FR_AS))
 scatter_FR_PC_AS <-ggplot(scatter_FR_PC_AS_data, aes(PC_AS, FR_AS))
-scatter_FR_PC_AS + geom_point() + geom_smooth() + labs(x="Perceived control", y="Frustration")
+scatter_FR_PC_AS + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived control", y="Frustration")+theme_bw()
 
 #scatterplot between frustration and perceived control within AF
 scatter_FR_PC_AF_data <- data[,c("Condition","PC_AF","FR_AF")]
 scatter_FR_PC_AF_data<- scatter_FR_PC_AF_data%>%filter(!is.na(FR_AF))
 scatter_FR_PC_AF <-ggplot(scatter_FR_PC_AF_data, aes(PC_AF, FR_AF))
-scatter_FR_PC_AF + geom_point() + geom_smooth() + labs(x="Perceived control", y="Frustration")
+scatter_FR_PC_AF + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived control", y="Frustration")+theme_bw()
 
 
 
@@ -219,7 +219,7 @@ BC1_var <- c(BC1$Blame)
 BC2_var <- c(BC2$Blame)
 BC3_var <- c(BC3$Blame)
 BC4_var <- c(BC4$Blame)
-Blame_Conditions_long <- data.frame(coding_var= rep(c("Control", "Sham", "AS", "AF"), each = 16), score = c(BC1_var, BC2_var, BC3_var, BC4_var))
+Blame_Conditions_long <- data.frame(coding_var= rep(c("1 - Control", "2 - Sham", "3 - AS", "4 - AF"), each = 16), score = c(BC1_var, BC2_var, BC3_var, BC4_var))
 Blame_Conditions <- ggplot(Blame_Conditions_long, aes(coding_var, score), inherit.aes = FALSE)
 Blame_Conditions + geom_boxplot() + labs(x = "", y = "Blame scores")
 
