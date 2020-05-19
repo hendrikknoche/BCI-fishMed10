@@ -5,6 +5,12 @@ library(MASS)
 library(tidyr)
 library(car)
 library(ggplot2)
+library(normalr)
+
+normalize <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+
 
 #reads the datafile
 data = readbulk::read_bulk('Questionnaire data', sep=';', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
@@ -42,6 +48,7 @@ Estimate_Playthrough$ID<-NULL
 summary(Estimate_Playthrough)
 friedman.test(as.matrix(Estimate_Playthrough))
 
+
 #Means for the FR depending on which playthrough they were specified.
 FR_Playthrough <- data[,c("ID","FR","Playthrough_Order")]
 #Boxplot for FR depending after which playthrough they were specified.
@@ -52,7 +59,6 @@ FR_Playthrough <- spread(FR_Playthrough,Playthrough_Order, FR)
 FR_Playthrough$ID<-NULL
 summary(FR_Playthrough)
 friedman.test(as.matrix(FR_Playthrough))
-FR_Playthrough_boxplot <- ggplot()
 
 #Means for the PC depending after which playthrough they were specified.
 PC_Playthrough <- data[,c("ID","PC","Playthrough_Order")]
@@ -67,10 +73,17 @@ friedman.test(as.matrix(PC_Playthrough))
 
 
 
-#???Wilcox test between R_PC and Estimate???
-R_PC_Estimate_data <- data[,c("ID","R_PC", "Estimate")]
-#Wilcox_R_PC_Estimate <- spread(R_PC_Estimate_data,Playthrough_Order, FR)
-wilcox.test()
+#Wilcox test between R_PC and Estimate
+R_PC_var <- c(data$R_PC)
+Estimate_var <- c(data$Estimate)
+R_PC_var <- normalize(R_PC_var)
+Estimate_var <- normalize(Estimate_var)
+R_PC_Estimate_data <- data.frame(coding_var= rep(c("R_PC","Estimate"), each = 64), score = c(R_PC_var, Estimate_var))
+wilcox.test(as.numeric(R_PC_Estimate_data$score) ~ as.numeric(R_PC_Estimate_data$coding_var))
+
+#Boxplots between R_PC and Estimate
+R_PC_Estimate_boxplot <- ggplot(R_PC_Estimate_data, aes(coding_var, score), inherit.aes = FALSE)
+R_PC_Estimate_boxplot + geom_boxplot() + labs(x = "", y = "Normalized scores/estimates")
 
 
 
@@ -152,13 +165,63 @@ wilcox.test(as.numeric(B_PC4$PC) ~ B_PC4$Blame)
 
 
 
+#Friedman test checking whether Blame attribution changed depending on the playthrough order
+#Data prep
+Blame_Conditions_or_Playthrough <- data[,c("ID","Blame","Playthrough_Order","Condition")]
+#Change Blame attribution from char to numeric
+Blame_Conditions_or_Playthrough$Blame[Blame_Conditions_or_Playthrough$Blame == "neutral"] <- 0
+Blame_Conditions_or_Playthrough$Blame[Blame_Conditions_or_Playthrough$Blame == "Self"] <- 1
+Blame_Conditions_or_Playthrough$Blame[Blame_Conditions_or_Playthrough$Blame == "System"] <- -1
+Blame_Conditions_or_Playthrough$Blame<-as.numeric(Blame_Conditions_or_Playthrough$Blame)
+#Get rid of the Condition column
+Blame_Conditions_or_Playthrough$Condition<-NULL
+#Turn format of the data to wide
+Blame_Conditions_or_Playthrough <- spread(Blame_Conditions_or_Playthrough,Playthrough_Order, Blame)
+Blame_Conditions_or_Playthrough$ID<-NULL
+friedman.test(as.matrix(Blame_Conditions_or_Playthrough))
+friedmanmc(as.matrix(Blame_Conditions_or_Playthrough))
+
+
+#Friedman test checking whether Blame attribution changed between different conditions
+#Data prep
+Blame_Conditions_or_Playthrough <- data[,c("ID","Blame","Playthrough_Order","Condition")]
+#Change Blame attribution from char to numeric
+Blame_Conditions_or_Playthrough$Blame[Blame_Conditions_or_Playthrough$Blame == "neutral"] <- 0
+Blame_Conditions_or_Playthrough$Blame[Blame_Conditions_or_Playthrough$Blame == "Self"] <- 1
+Blame_Conditions_or_Playthrough$Blame[Blame_Conditions_or_Playthrough$Blame == "System"] <- -1
+Blame_Conditions_or_Playthrough$Blame<-as.numeric(Blame_Conditions_or_Playthrough$Blame)
+#Get rid of the Plauthrough_Order column
+Blame_Conditions_or_Playthrough$Playthrough_Order<-NULL
+#Turn format of the data to wide
+Blame_Conditions_or_Playthrough <- spread(Blame_Conditions_or_Playthrough,Condition, Blame)
+Blame_Conditions_or_Playthrough$ID<-NULL
+friedman.test(as.matrix(Blame_Conditions_or_Playthrough))
+friedmanmc(as.matrix(Blame_Conditions_or_Playthrough))
 
 
 
-
-
-
-
+#Boxplots for Blame attribution depending on the condition
+Blame_Conditions <- data[,c("Blame","Condition")]
+#Change Blame attribution from char to numeric
+Blame_Conditions$Blame[Blame_Conditions$Blame == "neutral"] <- 0
+Blame_Conditions$Blame[Blame_Conditions$Blame == "Self"] <- 1
+Blame_Conditions$Blame[Blame_Conditions$Blame == "System"] <- -1
+Blame_Conditions$Blame<-as.numeric(Blame_Conditions$Blame)
+BC1<-Blame_Conditions[,c(1,2)]%>%filter( Condition=="1")
+BC1$Condition<-NULL
+BC2<-Blame_Conditions[,c(1,2)]%>%filter( Condition=="2")
+BC2$Condition<-NULL
+BC3<-Blame_Conditions[,c(1,2)]%>%filter( Condition=="3")
+BC3$Condition<-NULL
+BC4<-Blame_Conditions[,c(1,2)]%>%filter( Condition=="4")
+BC4$Condition<-NULL
+BC1_var <- c(BC1$Blame)
+BC2_var <- c(BC2$Blame)
+BC3_var <- c(BC3$Blame)
+BC4_var <- c(BC4$Blame)
+Blame_Conditions_long <- data.frame(coding_var= rep(c("Control", "Sham", "AS", "AF"), each = 16), score = c(BC1_var, BC2_var, BC3_var, BC4_var))
+Blame_Conditions <- ggplot(Blame_Conditions_long, aes(coding_var, score), inherit.aes = FALSE)
+Blame_Conditions + geom_boxplot() + labs(x = "", y = "Blame scores")
 
 
 
@@ -198,16 +261,6 @@ Blame_FR <- data %>%
   pivot_wider(names_from = variable, values_from = value)%>%
   select(-ID)%>%as.matrix()%>%
   friedman.test()
-
-
-
-
-
-
-
-
-
-
 
 
 # #create a dataframe to analyze PC depending on PAM employed
