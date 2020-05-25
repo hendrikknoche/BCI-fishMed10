@@ -1,16 +1,24 @@
 library(pgirmess)
 library(tidyverse)
 library(reshape2)
-library(MASS)
+#library(MASS)
 library(tidyr)
 library(car)
 library(ggplot2)
 library(normalr)
+library(dplyr)
+library(clinfun)
+library(pastecs)
 
 normalize <- function(x) {
   return ((x - min(x)) / (max(x) - min(x)))
 }
 
+rFromWilcox<-function(wilcoxModel, N){
+  z<- qnorm(wilcoxModel$p.value/2)
+  r<- z/ sqrt(N)
+  cat(wilcoxModel$data.name, "Effect Size, r = ", r)
+  }
 
 #reads the datafile
 data = readbulk::read_bulk('Questionnaire data', sep=';', na.strings = 'NA', stringsAsFactors=FALSE,row.names = NULL)
@@ -48,6 +56,17 @@ Estimate_Playthrough$ID<-NULL
 summary(Estimate_Playthrough)
 friedman.test(as.matrix(Estimate_Playthrough))
 
+#Means for PC between conditions
+PC_Conditions <- data[,c("ID","PC","Condition")]
+PC_Conditions <- spread(PC_Conditions,Condition, PC)
+PC_Conditions$ID<-NULL
+summary(PC_Conditions)
+
+#Means for FR between conditions
+FR_Conditions <- data[,c("ID","FR","Condition")]
+FR_Conditions <- spread(FR_Conditions,Condition, FR)
+FR_Conditions$ID<-NULL
+summary(FR_Conditions)
 
 #Means for the FR depending on which playthrough they were specified.
 FR_Playthrough <- data[,c("ID","FR","Playthrough_Order")]
@@ -88,26 +107,26 @@ R_PC_Estimate_boxplot + geom_boxplot() + labs(x = "", y = "Normalized scores/est
 
 
 #Scatterplot between frustration and perceived control within all conditions
-scatter_FR_PC <-ggplot(data, aes(FR, PC))
-scatter_FR_PC + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Frustration", y="Perceived Control")+theme_bw()
+scatter_FR_PC <-ggplot(data, aes(PC, FR))
+scatter_FR_PC + geom_point(aes(alpha=.3)) + xlim(1,7) + ylim(-1,7) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived Control", y="Frustration")+theme_bw()
 
 #scatterplot between frustration and perceived control within Sham
 scatter_FR_PC_Sham_data <- data[,c("Condition","PC_Sham","FR_Sham")]
 scatter_FR_PC_Sham_data<- scatter_FR_PC_Sham_data%>%filter(!is.na(FR_Sham))
 scatter_FR_PC_Sham <-ggplot(scatter_FR_PC_Sham_data, aes(PC_Sham, FR_Sham))
-scatter_FR_PC_Sham + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived Control", y="Frustration")+theme_bw()
+scatter_FR_PC_Sham + geom_point(aes(alpha=.3)) + xlim(1,7) + ylim(-4,7) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived Control", y="Frustration")+theme_bw()
 
 #scatterplot between frustration and perceived control within AS
 scatter_FR_PC_AS_data <- data[,c("Condition","PC_AS","FR_AS")]
 scatter_FR_PC_AS_data<- scatter_FR_PC_AS_data%>%filter(!is.na(FR_AS))
 scatter_FR_PC_AS <-ggplot(scatter_FR_PC_AS_data, aes(PC_AS, FR_AS))
-scatter_FR_PC_AS + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived control", y="Frustration")+theme_bw()
+scatter_FR_PC_AS + geom_point(aes(alpha=.3)) + xlim(1,7) + ylim(-1,7) + geom_smooth() + geom_jitter(width = .1)+ labs(x="Perceived control", y="Frustration")+theme_bw()
 
 #scatterplot between frustration and perceived control within AF
 scatter_FR_PC_AF_data <- data[,c("Condition","PC_AF","FR_AF")]
 scatter_FR_PC_AF_data<- scatter_FR_PC_AF_data%>%filter(!is.na(FR_AF))
 scatter_FR_PC_AF <-ggplot(scatter_FR_PC_AF_data, aes(PC_AF, FR_AF))
-scatter_FR_PC_AF + geom_point(aes(alpha=.3)) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived control", y="Frustration")+theme_bw()
+scatter_FR_PC_AF + geom_point(aes(alpha=.3)) + xlim(1,7) + ylim(-1,7) + geom_smooth() +geom_jitter(width = .1)+ labs(x="Perceived control", y="Frustration")+theme_bw()
 
 
 
@@ -148,20 +167,23 @@ wilcox.test(as.numeric(B_FR4$FR) ~ B_FR4$Blame)
 
 
 #Did perceived control depend on the Blame factor
-Blame_PC <- data[,c("Condition", "Blame", "PC")]
+Blame_PC <- data[,c("ID","Condition", "Blame", "PC")]
 #Control
-B_PC1<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="1")
+B_PC1<-Blame_PC[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="1")
 wilcox.test(as.numeric(B_PC1$PC) ~ B_PC1$Blame)
 #Sham
-B_PC2<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="2")
+B_PC2<-Blame_PC[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="2")
 wilcox.test(as.numeric(B_PC2$PC) ~ B_PC2$Blame)
 #AS
-B_PC3<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="3")
+B_PC3<-Blame_PC[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="3")
 wilcox.test(as.numeric(B_PC3$PC) ~ B_PC3$Blame)
 #AF
-B_PC4<-Blame_PC[,c(1,2,3)]%>%filter(!Blame=="neutral" & Condition=="4")
+B_PC4<-Blame_PC[,c(2,3,4)]%>%filter(!Blame=="neutral" & Condition=="4")
 wilcox.test(as.numeric(B_PC4$PC) ~ B_PC4$Blame)
 
+#Means for perceived control depending on the Blame factor
+
+Blame_PC_Means <- spread(Blame_PC_Means,Playthrough_Order, Estimate)
 
 
 
@@ -197,6 +219,9 @@ Blame_Conditions_or_Playthrough <- spread(Blame_Conditions_or_Playthrough,Condit
 Blame_Conditions_or_Playthrough$ID<-NULL
 friedman.test(as.matrix(Blame_Conditions_or_Playthrough))
 friedmanmc(as.matrix(Blame_Conditions_or_Playthrough))
+Blame_Condition_wilcox_model <- wilcox.test(Blame_Conditions_or_Playthrough$"2", Blame_Conditions_or_Playthrough$"3", paired=TRUE, correct=FALSE)
+Blame_Condition_wilcox_model
+rFromWilcox(Blame_Condition_wilcox_model, 32)
 
 
 
@@ -224,6 +249,13 @@ Blame_Conditions <- ggplot(Blame_Conditions_long, aes(coding_var, score), inheri
 Blame_Conditions + geom_boxplot() + labs(x = "", y = "Blame scores")
 
 
+#Friedman test for FR_PAM
+FR_PAM_data <- data[,c("ID", "FR_Sham", "FR_AS", "FR_AF")]
+FR_PAM_data <- melt(id.vars="ID")
+FR_PAM_data <- filter(!is.na(value))
+FR_PAM_data <- pivot_wider(names_from = variable, values_from = value)
+FR_PAM_data <- select(-ID)
+FR_PAM_data <- as.matrix()
 
 
 
@@ -231,26 +263,33 @@ Blame_Conditions + geom_boxplot() + labs(x = "", y = "Blame scores")
 
 
 
-
-
-
-
-#Friedman tests
-
-
+#Friedman tests for FR_PAM
 data %>% 
   select(c("ID", "FR_Sham", "FR_AS", "FR_AF"))%>%melt(id.vars="ID")%>%
   filter(!is.na(value))%>%
   pivot_wider(names_from = variable, values_from = value)%>%
-  select(-ID)%>%as.matrix()%>%
+  select(-ID)%>%{. ->> FR_PAM_data }%>%as.matrix()%>%
   friedman.test()
+  friedmanmc()
+  FR_PAM_wilcox_model <- wilcox.test(FR_PAM_data$FR_Sham, FR_PAM_data$FR_AS, paired=TRUE, correct=FALSE)
+  rFromWilcox(FR_PAM_wilcox_model, 32)
+  
 
+#Friedman tests for PC_PAM
 data %>% 
-  select(c("ID", "FR_Sham", "FR_AS", "FR_AF"))%>%melt(id.vars="ID")%>%
+  select(c("ID", "PC_Sham", "PC_AS", "PC_AF"))%>%melt(id.vars="ID")%>%
   filter(!is.na(value))%>%
   pivot_wider(names_from = variable, values_from = value)%>%
-  select(-ID)%>%as.matrix()%>%
+  select(-ID)%>%{. ->> PC_PAM_data }%>%as.matrix()%>%
+  friedman.test()
   friedmanmc()
+  PC_PAM_wilcox_model <- wilcox.test(PC_PAM_data$PC_Sham, PC_PAM_data$PC_AS, paired=TRUE, correct=FALSE)
+  rFromWilcox(PC_PAM_wilcox_model, 32)
+
+
+
+
+
 
 data %>% 
   select(c("ID", "Blame","Condition"))%>%pivot_wider(names_from = Condition, values_from = Blame)
@@ -263,24 +302,24 @@ Blame_FR <- data %>%
   friedman.test()
 
 
-# #create a dataframe to analyze PC depending on PAM employed
-# PCPAM<-data[,c(2,3,17,19,21)]
-# #remove rows with condition 1 results (they're blank)
-# PCPAM<-PCPAM[-c(1:17),]
-# #merge all of PCPAM data into one column
-# PCPAM$PCPAM2<-ifelse(is.na(PCPAM$PCPAM3), PCPAM$PCPAM2, PCPAM$PCPAM3)
-# PCPAM$PCPAM3<-NULL
-# PCPAM$PCPAM2<-ifelse(is.na(PCPAM$PCPAM4), PCPAM$PCPAM2, PCPAM$PCPAM4)
-# PCPAM$PCPAM4<-NULL
-# #reshape data so that the conditions become the grouping variables
-# FriedmanPCPAM<-reshape(PCPAM, idvar='ID', timevar='Condition', direction='wide')
-# FriedmanPCPAM$ID<-NULL
-# #renaming the columns to actual conditions
-# names(FriedmanPCPAM)[1] <- "con2"
-# names(FriedmanPCPAM)[2] <- "con3"
-# names(FriedmanPCPAM)[3] <- "con4"
-# #running the Friedman test and posthoc
-# friedman.test(as.matrix(FriedmanPCPAM))
-# friedmanmc(as.matrix(FriedmanPCPAM))
+#create a dataframe to analyze PC depending on PAM employed
+PCPAM<-data[,c(2,3,17,19,21)]
+#remove rows with condition 1 results (they're blank)
+PCPAM<-PCPAM[-c(1:17),]
+#merge all of PCPAM data into one column
+PCPAM$PCPAM2<-ifelse(is.na(PCPAM$PCPAM3), PCPAM$PCPAM2, PCPAM$PCPAM3)
+PCPAM$PCPAM3<-NULL
+PCPAM$PCPAM2<-ifelse(is.na(PCPAM$PCPAM4), PCPAM$PCPAM2, PCPAM$PCPAM4)
+PCPAM$PCPAM4<-NULL
+#reshape data so that the conditions become the grouping variables
+FriedmanPCPAM<-reshape(PCPAM, idvar='ID', timevar='Condition', direction='wide')
+FriedmanPCPAM$ID<-NULL
+#renaming the columns to actual conditions
+names(FriedmanPCPAM)[1] <- "con2"
+names(FriedmanPCPAM)[2] <- "con3"
+names(FriedmanPCPAM)[3] <- "con4"
+#running the Friedman test and posthoc
+friedman.test(as.matrix(FriedmanPCPAM))
+friedmanmc(as.matrix(FriedmanPCPAM))
 
 
