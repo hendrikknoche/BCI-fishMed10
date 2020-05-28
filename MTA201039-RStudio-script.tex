@@ -1,0 +1,1546 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={MTA201039-RStudio-script.R},
+  pdfauthor={jedrz},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{MTA201039-RStudio-script.R}
+\author{jedrz}
+\date{2020-05-28}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(pgirmess)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'pgirmess' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tidyverse' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## -- Attaching packages -------------------------------------------------------------------------------------------------- tidyverse 1.3.0 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.0     v purrr   0.3.4
+## v tibble  3.0.1     v dplyr   0.8.5
+## v tidyr   1.0.3     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.5.0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tibble' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tidyr' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'readr' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'purrr' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'stringr' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'forcats' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ----------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(reshape2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'reshape2' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'reshape2'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     smiths
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#library(MASS)}
+\KeywordTok{library}\NormalTok{(tidyr)}
+\KeywordTok{library}\NormalTok{(car)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'car' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: carData
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'car'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     some
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(normalr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'normalr' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\KeywordTok{library}\NormalTok{(clinfun)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'clinfun' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(pastecs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'pastecs' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'pastecs'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     first, last
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(QuantPsyc)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'QuantPsyc' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: boot
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'boot'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:car':
+## 
+##     logit
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: MASS
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'MASS'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'QuantPsyc'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     norm
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(Hmisc)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'Hmisc' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'lattice'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:boot':
+## 
+##     melanoma
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: survival
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'survival' was built under R version 3.6.3
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'survival'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:boot':
+## 
+##     aml
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Formula
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Hmisc'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     src, summarize
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     format.pval, units
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{normalize <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) \{}
+  \KeywordTok{return}\NormalTok{ ((x }\OperatorTok{-}\StringTok{ }\KeywordTok{min}\NormalTok{(x)) }\OperatorTok{/}\StringTok{ }\NormalTok{(}\KeywordTok{max}\NormalTok{(x) }\OperatorTok{-}\StringTok{ }\KeywordTok{min}\NormalTok{(x)))}
+\NormalTok{\}}
+
+\NormalTok{rFromWilcox<-}\ControlFlowTok{function}\NormalTok{(wilcoxModel, N)\{}
+\NormalTok{  z<-}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(wilcoxModel}\OperatorTok{$}\NormalTok{p.value}\OperatorTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{  r<-}\StringTok{ }\NormalTok{z}\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(N)}
+  \KeywordTok{cat}\NormalTok{(wilcoxModel}\OperatorTok{$}\NormalTok{data.name, }\StringTok{"Effect Size, r = "}\NormalTok{, r)}
+\NormalTok{  \}}
+
+\CommentTok{#reads the datafile}
+\NormalTok{data =}\StringTok{ }\NormalTok{readbulk}\OperatorTok{::}\KeywordTok{read_bulk}\NormalTok{(}\StringTok{'Questionnaire data'}\NormalTok{, }\DataTypeTok{sep=}\StringTok{';'}\NormalTok{, }\DataTypeTok{na.strings =} \StringTok{'NA'}\NormalTok{, }\DataTypeTok{stringsAsFactors=}\OtherTok{FALSE}\NormalTok{,}\DataTypeTok{row.names =} \OtherTok{NULL}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Reading (1) Condition Survey (Responses) - Form responses 1.csv
+\end{verbatim}
+
+\begin{verbatim}
+## Reading (2) Condition Survey (Responses) - Form responses 1.csv
+\end{verbatim}
+
+\begin{verbatim}
+## Reading (3) Condition Survey (Responses) - Form responses 1.csv
+\end{verbatim}
+
+\begin{verbatim}
+## Reading (4) Condition Survey (Responses) - Form responses 1.csv
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#renames the columns to usable names}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"ID"}\NormalTok{ =}\StringTok{ "Participant.no."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"PC"}\NormalTok{ =}\StringTok{ "I.felt.in.control.of.the.fisherman.s.actions."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"R_PC"}\NormalTok{ =}\StringTok{ "I.felt.in.control.....while.trying.to.reel.in.the.fish..performing.the.key.sequence..."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"T_PC"}\NormalTok{ =}\StringTok{ "I.felt.in.control..0...when.the.fish.was.tugging.away.from.me..moving.a.column.away..."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"E_PC"}\NormalTok{ =}\StringTok{ "I.felt.in.control.....when.the.fish.escaped.."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"Compare_PC"}\NormalTok{ =}\StringTok{ "In.this.condition..."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"FR"}\NormalTok{ =}\StringTok{ "How.much.frustration.did.you.feel.....during.this.condition.."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"OFR"}\NormalTok{ =}\StringTok{ "How.much.frustration.did.you.feel.....overall.since.we.started.the.experiment.."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"R_FR"}\NormalTok{ =}\StringTok{ "How.much.frustration.did.you.feel.....while.you.were.trying.to.reel.in.the.fish..perform.the.key.sequence.."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"T_FR"}\NormalTok{ =}\StringTok{ "How.much.frustration.did.you.feel.....while.the.fish.was.tugging.away.from.you..moving.a.column.away.."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"E_FR"}\NormalTok{ =}\StringTok{ "How.much.frustration.did.you.feel.....when.the.fish.escaped.."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"Compare_FR"}\NormalTok{ =}\StringTok{ "In.this.condition....1"}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"Estimate"}\NormalTok{ =}\StringTok{ "How.likely.do.you.think.you.were.to.succeed.in.reeling.the.fish.up.by.one.lane.in.this.condition..Provide.the.answer.on.a.scale.of.1...100."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"PC_Sham"}\NormalTok{ =}\StringTok{ "I.felt.in.control.when.I.got.help.from.the.other.character."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"FR_Sham"}\NormalTok{ =}\StringTok{ "I.felt.frustrated.when.I.got.help.from.the.other.character."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"PC_AS"}\NormalTok{ =}\StringTok{ "I.felt.in.control.when.when.my.character.reeled.the.fish.up.by.two.lanes."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"FR_AS"}\NormalTok{ =}\StringTok{ "I.felt.frustrated.when.my.character.reeled.the.fish.up.by.two.lanes."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"PC_AF"}\NormalTok{ =}\StringTok{ "I.felt.in.control.when.the.big.clamp.prevented.the.fish.from.swimming.away.from.me."}\NormalTok{)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"FR_AF"}\NormalTok{ =}\StringTok{ "I.felt.frustrated.when.the.big.clamp.prevented.the.fish.from.swimming.away.from.me."}\NormalTok{)}
+\NormalTok{data}\OperatorTok{$}\NormalTok{Blame<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(data}\OperatorTok{$}\NormalTok{Blame),}\StringTok{"neutral"}\NormalTok{,data}\OperatorTok{$}\NormalTok{Blame)}
+\NormalTok{data}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{as.factor}\NormalTok{(data}\OperatorTok{$}\NormalTok{Condition)}
+
+
+
+\CommentTok{#Wilcox test between R_PC and Estimate}
+\NormalTok{R_PC_var <-}\StringTok{ }\KeywordTok{c}\NormalTok{(data}\OperatorTok{$}\NormalTok{R_PC)}
+\NormalTok{Estimate_var <-}\StringTok{ }\KeywordTok{c}\NormalTok{(data}\OperatorTok{$}\NormalTok{Estimate)}
+\NormalTok{R_PC_var <-}\StringTok{ }\KeywordTok{normalize}\NormalTok{(R_PC_var)}
+\NormalTok{Estimate_var <-}\StringTok{ }\KeywordTok{normalize}\NormalTok{(Estimate_var)}
+\NormalTok{R_PC_Estimate_data <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{coding_var=} \KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"R_PC"}\NormalTok{,}\StringTok{"Estimate"}\NormalTok{), }\DataTypeTok{each =} \DecValTok{64}\NormalTok{), }\DataTypeTok{score =} \KeywordTok{c}\NormalTok{(R_PC_var, Estimate_var))}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(R_PC_Estimate_data}\OperatorTok{$}\NormalTok{score) }\OperatorTok{~}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(R_PC_Estimate_data}\OperatorTok{$}\NormalTok{coding_var))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(R_PC_Estimate_data$score) by as.numeric(R_PC_Estimate_data$coding_var)
+## W = 2426.5, p-value = 0.07071
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Boxplots between R_PC and Estimate}
+\NormalTok{R_PC_Estimate_boxplot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(R_PC_Estimate_data, }\KeywordTok{aes}\NormalTok{(coding_var, score), }\DataTypeTok{inherit.aes =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{R_PC_Estimate_boxplot }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{0.05}\NormalTok{, }\DataTypeTok{height =} \FloatTok{0.05}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{stat_summary}\NormalTok{(}\DataTypeTok{fun.data =}\NormalTok{ mean_cl_boot, }\DataTypeTok{geom =} \StringTok{"errorbar"}\NormalTok{, }\DataTypeTok{colour =} \StringTok{"red"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\KeywordTok{stat_summary}\NormalTok{(}\DataTypeTok{fun.y =}\NormalTok{ mean, }\DataTypeTok{geom =} \StringTok{"point"}\NormalTok{, }\DataTypeTok{colour =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{size =} \DecValTok{4}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{""}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Normalized scores/estimates"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `fun.y` is deprecated. Use `fun` instead.
+\end{verbatim}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Means for the Estimate depending after which playthrough they were specified.}
+\NormalTok{Estimate_Playthrough <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Estimate"}\NormalTok{,}\StringTok{"Playthrough_Order"}\NormalTok{)]}
+\CommentTok{#Turn format of the data to wide}
+\NormalTok{Estimate_Playthrough <-}\StringTok{ }\KeywordTok{spread}\NormalTok{(Estimate_Playthrough,Playthrough_Order, Estimate)}
+\NormalTok{Estimate_Playthrough}\OperatorTok{$}\NormalTok{ID<-}\OtherTok{NULL}
+\KeywordTok{summary}\NormalTok{(Estimate_Playthrough)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1               2               3               4        
+##  Min.   :10.00   Min.   :25.00   Min.   :25.00   Min.   :25.00  
+##  1st Qu.:53.25   1st Qu.:47.50   1st Qu.:50.00   1st Qu.:40.00  
+##  Median :68.50   Median :55.00   Median :60.00   Median :70.00  
+##  Mean   :59.06   Mean   :56.12   Mean   :58.62   Mean   :62.69  
+##  3rd Qu.:71.25   3rd Qu.:70.00   3rd Qu.:71.25   3rd Qu.:80.00  
+##  Max.   :90.00   Max.   :95.00   Max.   :80.00   Max.   :95.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{friedman.test}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(Estimate_Playthrough))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Friedman rank sum test
+## 
+## data:  as.matrix(Estimate_Playthrough)
+## Friedman chi-squared = 5.9792, df = 3, p-value = 0.1126
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Means for the FR depending on which playthrough they were specified.}
+\NormalTok{FR_Playthrough <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"FR"}\NormalTok{,}\StringTok{"Playthrough_Order"}\NormalTok{)]}
+\CommentTok{#Boxplot for FR depending after which playthrough they were specified.}
+\NormalTok{FR_Playthrough_boxplot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(FR_Playthrough, }\KeywordTok{aes}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(Playthrough_Order), FR))}
+\NormalTok{FR_Playthrough_boxplot }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{0.15}\NormalTok{, }\DataTypeTok{height =} \FloatTok{0.1}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.character}\NormalTok{(}\StringTok{"Playthrough Order"}\NormalTok{), }\DataTypeTok{y =} \StringTok{"Frustration"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Turn format of the data to wide}
+\NormalTok{FR_Playthrough <-}\StringTok{ }\KeywordTok{spread}\NormalTok{(FR_Playthrough,Playthrough_Order, FR)}
+\NormalTok{FR_Playthrough}\OperatorTok{$}\NormalTok{ID<-}\OtherTok{NULL}
+\KeywordTok{summary}\NormalTok{(FR_Playthrough)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1               2               3              4        
+##  Min.   :1.000   Min.   :1.000   Min.   :1.00   Min.   :1.000  
+##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.00   1st Qu.:2.000  
+##  Median :3.500   Median :4.000   Median :3.00   Median :2.500  
+##  Mean   :3.188   Mean   :3.625   Mean   :3.25   Mean   :2.875  
+##  3rd Qu.:4.000   3rd Qu.:5.000   3rd Qu.:4.25   3rd Qu.:4.000  
+##  Max.   :5.000   Max.   :6.000   Max.   :5.00   Max.   :6.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{friedman.test}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(FR_Playthrough))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Friedman rank sum test
+## 
+## data:  as.matrix(FR_Playthrough)
+## Friedman chi-squared = 6.697, df = 3, p-value = 0.08221
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Means for the PC depending after which playthrough they were specified.}
+\NormalTok{PC_Playthrough <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"PC"}\NormalTok{,}\StringTok{"Playthrough_Order"}\NormalTok{)]}
+\CommentTok{#Boxplot for PC depending after which playthrough they were specified.}
+\NormalTok{PC_Playthrough_boxplot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(PC_Playthrough, }\KeywordTok{aes}\NormalTok{(}\KeywordTok{as.character}\NormalTok{(Playthrough_Order), PC))}
+\NormalTok{PC_Playthrough_boxplot }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.character}\NormalTok{(}\StringTok{"Playthrough Order"}\NormalTok{), }\DataTypeTok{y =} \StringTok{"Perceived Control"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Turn format of the data to wide}
+\NormalTok{PC_Playthrough <-}\StringTok{ }\KeywordTok{spread}\NormalTok{(PC_Playthrough,Playthrough_Order, PC)}
+\NormalTok{PC_Playthrough}\OperatorTok{$}\NormalTok{ID<-}\OtherTok{NULL}
+\KeywordTok{summary}\NormalTok{(PC_Playthrough)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1               2               3               4       
+##  Min.   :3.000   Min.   :2.000   Min.   :2.000   Min.   :1.00  
+##  1st Qu.:4.750   1st Qu.:3.000   1st Qu.:4.000   1st Qu.:2.75  
+##  Median :5.000   Median :4.000   Median :5.000   Median :4.50  
+##  Mean   :5.188   Mean   :4.375   Mean   :4.688   Mean   :4.25  
+##  3rd Qu.:6.000   3rd Qu.:5.250   3rd Qu.:6.000   3rd Qu.:6.00  
+##  Max.   :7.000   Max.   :7.000   Max.   :6.000   Max.   :7.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{friedman.test}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(PC_Playthrough))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Friedman rank sum test
+## 
+## data:  as.matrix(PC_Playthrough)
+## Friedman chi-squared = 4.3701, df = 3, p-value = 0.2242
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Scatterplot between frustration and perceived control within all conditions}
+\NormalTok{scatter_FR_PC_data <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Blame"}\NormalTok{, }\StringTok{"Condition"}\NormalTok{,}\StringTok{"PC"}\NormalTok{,}\StringTok{"FR"}\NormalTok{)]}
+\CommentTok{#Ridiculous way of changing names within in a column (we're in a hurry)}
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition[}\KeywordTok{which}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition }\OperatorTok{==}\StringTok{ "1"}\NormalTok{)] =}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\StringTok{"4.Control"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in `[<-.factor`(`*tmp*`, which(scatter_FR_PC_data$Condition == "1"), :
+## invalid factor level, NA generated
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition),}\StringTok{"4.Control"}\NormalTok{,scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition)}
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition[}\KeywordTok{which}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition }\OperatorTok{==}\StringTok{ "2"}\NormalTok{)] =}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\StringTok{"2.Sham"}\NormalTok{)}
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition),}\StringTok{"1.Sham"}\NormalTok{,scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition)}
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition[}\KeywordTok{which}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition }\OperatorTok{==}\StringTok{ "3"}\NormalTok{)] =}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\StringTok{"3.AS"}\NormalTok{)}
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition),}\StringTok{"2.AS"}\NormalTok{,scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition)}
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition[}\KeywordTok{which}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition }\OperatorTok{==}\StringTok{ "4"}\NormalTok{)] =}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\StringTok{"4.AF"}\NormalTok{)}
+\NormalTok{scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition),}\StringTok{"3.AF"}\NormalTok{,scatter_FR_PC_data}\OperatorTok{$}\NormalTok{Condition)}
+\NormalTok{scatter_FR_PC <-}\KeywordTok{ggplot}\NormalTok{(scatter_FR_PC_data, }\KeywordTok{aes}\NormalTok{(PC, FR, }\DataTypeTok{color=}\NormalTok{Blame, }\DataTypeTok{shape=}\NormalTok{Blame))}
+\NormalTok{scatter_FR_PC }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{xlim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ylim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm, }\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{) }\OperatorTok{+}\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{.1}\NormalTok{)}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Perceived Control"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Frustration"}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 7 rows containing missing values (geom_point).
+\end{verbatim}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sgnificance Test for Linear Regression}
+\NormalTok{FR_PC.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(PC }\OperatorTok{~}\StringTok{ }\NormalTok{FR, }\DataTypeTok{data=}\NormalTok{scatter_FR_PC_data)}
+\KeywordTok{summary}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PC ~ FR, data = scatter_FR_PC_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.1922 -0.9383  0.0617  0.8713  2.8232 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   5.4460     0.4477  12.166   <2e-16 ***
+## FR           -0.2538     0.1265  -2.006   0.0492 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.451 on 62 degrees of freedom
+## Multiple R-squared:  0.06095,    Adjusted R-squared:  0.0458 
+## F-statistic: 4.024 on 1 and 62 DF,  p-value: 0.04923
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm.beta}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         FR 
+## -0.2468748
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sgnificance Test for Linear Regression for Sham}
+\NormalTok{scatter_FR_PC_Sham_data<-}\StringTok{ }\NormalTok{scatter_FR_PC_data}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(Condition}\OperatorTok{==}\StringTok{"2.Sham"}\NormalTok{)}
+\NormalTok{FR_PC.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(PC }\OperatorTok{~}\StringTok{ }\NormalTok{FR, }\DataTypeTok{data=}\NormalTok{scatter_FR_PC_Sham_data)}
+\KeywordTok{summary}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PC ~ FR, data = scatter_FR_PC_Sham_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.01647 -0.84679 -0.43163  0.08731  3.15321 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   6.7710     0.7981   8.484 6.87e-07 ***
+## FR           -0.5848     0.2056  -2.844    0.013 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.267 on 14 degrees of freedom
+## Multiple R-squared:  0.3662, Adjusted R-squared:  0.3209 
+## F-statistic: 8.088 on 1 and 14 DF,  p-value: 0.013
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm.beta}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         FR 
+## -0.6051214
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sgnificance Test for Linear Regression for Self}
+\NormalTok{scatter_FR_PC_Self_data<-}\StringTok{ }\NormalTok{scatter_FR_PC_data}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(Blame}\OperatorTok{==}\StringTok{"Self"}\NormalTok{)}
+\NormalTok{FR_PC.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(PC }\OperatorTok{~}\StringTok{ }\NormalTok{FR, }\DataTypeTok{data=}\NormalTok{scatter_FR_PC_Self_data)}
+\KeywordTok{summary}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PC ~ FR, data = scatter_FR_PC_Self_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.87742 -0.61613 -0.05081  0.60121  1.68790 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   6.4855     0.5149  12.597 2.96e-11 ***
+## FR           -0.4347     0.1445  -3.008   0.0067 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.061 on 21 degrees of freedom
+## Multiple R-squared:  0.3011, Adjusted R-squared:  0.2679 
+## F-statistic: 9.049 on 1 and 21 DF,  p-value: 0.006695
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm.beta}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         FR 
+## -0.5487672
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sgnificance Test for Linear Regression for System}
+\NormalTok{scatter_FR_PC_System_data<-}\StringTok{ }\NormalTok{scatter_FR_PC_data}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(Blame}\OperatorTok{==}\StringTok{"System"}\NormalTok{)}
+\NormalTok{FR_PC.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(PC }\OperatorTok{~}\StringTok{ }\NormalTok{FR, }\DataTypeTok{data=}\NormalTok{scatter_FR_PC_System_data)}
+\KeywordTok{summary}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PC ~ FR, data = scatter_FR_PC_System_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.4388 -0.9898 -0.1020  0.8418  2.8980 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   4.5510     0.7056   6.450 9.39e-07 ***
+## FR           -0.1122     0.2006  -0.559    0.581    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.378 on 25 degrees of freedom
+## Multiple R-squared:  0.01237,    Adjusted R-squared:  -0.02714 
+## F-statistic: 0.313 on 1 and 25 DF,  p-value: 0.5808
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm.beta}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         FR 
+## -0.1112024
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sgnificance Test for Linear Regression for Neutral}
+\NormalTok{scatter_FR_PC_Neutral_data<-}\StringTok{ }\NormalTok{scatter_FR_PC_data}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(Blame}\OperatorTok{==}\StringTok{"neutral"}\NormalTok{)}
+\NormalTok{FR_PC.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(PC }\OperatorTok{~}\StringTok{ }\NormalTok{FR, }\DataTypeTok{data=}\NormalTok{scatter_FR_PC_Neutral_data)}
+\KeywordTok{summary}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PC ~ FR, data = scatter_FR_PC_Neutral_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.8800 -1.2206  0.3929  1.4271  2.5294 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)   5.1529     1.2603   4.089   0.0015 **
+## FR           -0.1365     0.3565  -0.383   0.7085   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.964 on 12 degrees of freedom
+## Multiple R-squared:  0.01207,    Adjusted R-squared:  -0.07026 
+## F-statistic: 0.1466 on 1 and 12 DF,  p-value: 0.7085
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm.beta}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         FR 
+## -0.1098453
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#scatterplot between frustration and perceived control in regard ot PAM, wihtin the three PAM conditions}
+\NormalTok{scatter_data_PAM <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Condition"}\NormalTok{,}\StringTok{"PC_Sham"}\NormalTok{,}\StringTok{"FR_Sham"}\NormalTok{,}\StringTok{"PC_AS"}\NormalTok{,}\StringTok{"FR_AS"}\NormalTok{,}\StringTok{"PC_AF"}\NormalTok{,}\StringTok{"FR_AF"}\NormalTok{)]}
+\NormalTok{scatter_data_PAM<-scatter_data_PAM[}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{16}\NormalTok{),]}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_AS), scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_Sham, scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_AS)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_AS<-}\OtherTok{NULL}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_AF), scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_Sham, scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_AF)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{PC_AF<-}\OtherTok{NULL}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_AS), scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_Sham, scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_AS)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_AS<-}\OtherTok{NULL}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_AF), scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_Sham, scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_AF)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{FR_AF<-}\OtherTok{NULL}
+\NormalTok{scatter_data_PAM <-}\StringTok{ }\NormalTok{scatter_data_PAM}\OperatorTok{%>%}\KeywordTok{rename}\NormalTok{(}\StringTok{"FR"}\NormalTok{ =}\StringTok{ "FR_Sham"}\NormalTok{)}
+\NormalTok{scatter_data_PAM <-}\StringTok{ }\NormalTok{scatter_data_PAM }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"PC"}\NormalTok{ =}\StringTok{ "PC_Sham"}\NormalTok{)}
+\CommentTok{#Ridiculous way of changing names within in a column (we're in a hurry)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition[}\KeywordTok{which}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition }\OperatorTok{==}\StringTok{ "2"}\NormalTok{)] =}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\StringTok{"1.Sham"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in `[<-.factor`(`*tmp*`, which(scatter_data_PAM$Condition == "2"), :
+## invalid factor level, NA generated
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition),}\StringTok{"1.Sham"}\NormalTok{,scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition[}\KeywordTok{which}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition }\OperatorTok{==}\StringTok{ "3"}\NormalTok{)] =}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\StringTok{"2.AS"}\NormalTok{)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition),}\StringTok{"2.AS"}\NormalTok{,scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition[}\KeywordTok{which}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition }\OperatorTok{==}\StringTok{ "4"}\NormalTok{)] =}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\StringTok{"3.AF"}\NormalTok{)}
+\NormalTok{scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition),}\StringTok{"3.AF"}\NormalTok{,scatter_data_PAM}\OperatorTok{$}\NormalTok{Condition)}
+\NormalTok{scatter_data_PAM_plot <-}\KeywordTok{ggplot}\NormalTok{(scatter_data_PAM , }\KeywordTok{aes}\NormalTok{(PC, FR, }\DataTypeTok{color=}\NormalTok{Condition, }\DataTypeTok{shape=}\NormalTok{Condition))}
+\NormalTok{scatter_data_PAM_plot }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{xlim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ylim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm, }\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{) }\OperatorTok{+}\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{.1}\NormalTok{)}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Perceived Control"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Frustration"}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 47 rows containing missing values (geom_smooth).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 20 rows containing missing values (geom_point).
+\end{verbatim}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sgnificance Test for Linear Regression}
+\NormalTok{FR_PC_PAM.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(PC }\OperatorTok{~}\StringTok{ }\NormalTok{FR, }\DataTypeTok{data=}\NormalTok{scatter_data_PAM)}
+\KeywordTok{summary}\NormalTok{(FR_PC_PAM.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PC ~ FR, data = scatter_data_PAM)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.7417 -1.0954  0.1546  1.1027  3.2583 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   4.3001     0.3855  11.154 1.13e-14 ***
+## FR           -0.5585     0.1383  -4.038 0.000202 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.752 on 46 degrees of freedom
+## Multiple R-squared:  0.2617, Adjusted R-squared:  0.2457 
+## F-statistic: 16.31 on 1 and 46 DF,  p-value: 0.0002022
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm.beta}\NormalTok{(FR_PC_PAM.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         FR 
+## -0.5115865
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sgnificance Test for Linear Regression for Sham within PAMs}
+\NormalTok{scatter_Sham_data<-}\StringTok{ }\NormalTok{scatter_data_PAM}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(Condition}\OperatorTok{==}\StringTok{"1.Sham"}\NormalTok{)}
+\NormalTok{FR_PC.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(PC }\OperatorTok{~}\StringTok{ }\NormalTok{FR, }\DataTypeTok{data=}\NormalTok{scatter_Sham_data)}
+\KeywordTok{summary}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PC ~ FR, data = scatter_Sham_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.0554 -1.2111  0.3220  0.5634  3.4691 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   4.0064     0.6608   6.063 2.92e-05 ***
+## FR           -0.4755     0.1549  -3.069  0.00833 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.453 on 14 degrees of freedom
+## Multiple R-squared:  0.4021, Adjusted R-squared:  0.3594 
+## F-statistic: 9.417 on 1 and 14 DF,  p-value: 0.008334
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm.beta}\NormalTok{(FR_PC.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         FR 
+## -0.6341483
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#scatterplot between frustration and perceived control within Sham}
+\NormalTok{scatter_FR_PC_Sham_data <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Condition"}\NormalTok{,}\StringTok{"PC_Sham"}\NormalTok{,}\StringTok{"FR_Sham"}\NormalTok{)]}
+\NormalTok{scatter_FR_PC_Sham_data<-}\StringTok{ }\NormalTok{scatter_FR_PC_Sham_data}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(FR_Sham))}
+\NormalTok{scatter_FR_PC_Sham <-}\KeywordTok{ggplot}\NormalTok{(scatter_FR_PC_Sham_data, }\KeywordTok{aes}\NormalTok{(PC_Sham, FR_Sham))}
+\NormalTok{scatter_FR_PC_Sham }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{xlim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ylim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm, }\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{) }\OperatorTok{+}\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{.1}\NormalTok{)}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Perceived Control"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Frustration"}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 22 rows containing missing values (geom_smooth).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 8 rows containing missing values (geom_point).
+\end{verbatim}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#scatterplot between frustration and perceived control within AS}
+\NormalTok{scatter_FR_PC_AS_data <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Condition"}\NormalTok{,}\StringTok{"PC_AS"}\NormalTok{,}\StringTok{"FR_AS"}\NormalTok{)]}
+\NormalTok{scatter_FR_PC_AS_data<-}\StringTok{ }\NormalTok{scatter_FR_PC_AS_data}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(FR_AS))}
+\NormalTok{scatter_FR_PC_AS <-}\KeywordTok{ggplot}\NormalTok{(scatter_FR_PC_AS_data, }\KeywordTok{aes}\NormalTok{(PC_AS, FR_AS))}
+\NormalTok{scatter_FR_PC_AS }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{xlim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ylim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm, }\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{.1}\NormalTok{)}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Perceived control"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Frustration"}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 10 rows containing missing values (geom_point).
+\end{verbatim}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#scatterplot between frustration and perceived control within AF}
+\NormalTok{scatter_FR_PC_AF_data <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Condition"}\NormalTok{,}\StringTok{"PC_AF"}\NormalTok{,}\StringTok{"FR_AF"}\NormalTok{)]}
+\NormalTok{scatter_FR_PC_AF_data<-}\StringTok{ }\NormalTok{scatter_FR_PC_AF_data}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(FR_AF))}
+\NormalTok{scatter_FR_PC_AF <-}\KeywordTok{ggplot}\NormalTok{(scatter_FR_PC_AF_data, }\KeywordTok{aes}\NormalTok{(PC_AF, FR_AF))}
+\NormalTok{scatter_FR_PC_AF }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{xlim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ylim}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method=}\NormalTok{lm, }\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{) }\OperatorTok{+}\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{.1}\NormalTok{)}\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Perceived control"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Frustration"}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 25 rows containing missing values (geom_smooth).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 9 rows containing missing values (geom_point).
+\end{verbatim}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-8.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Did frustration with the PAMs depend on the Blame factor within individual PAMs}
+\NormalTok{Blame_FR_PAM <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Condition"}\NormalTok{, }\StringTok{"Blame"}\NormalTok{, }\StringTok{"FR_Sham"}\NormalTok{, }\StringTok{"FR_AS"}\NormalTok{, }\StringTok{"FR_AF"}\NormalTok{)]}
+\CommentTok{#moving everything into one column}
+\NormalTok{Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_AS), Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_Sham, Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_AS)}
+\NormalTok{Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_AS<-}\OtherTok{NULL}
+\NormalTok{Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_AF), Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_Sham, Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_AF)}
+\NormalTok{Blame_FR_PAM}\OperatorTok{$}\NormalTok{FR_AF<-}\OtherTok{NULL}
+\CommentTok{#Blame_FR <- Blame_FR%>%filter(!is.na(FR_Sham))%>%pivot_wider(names_from = "Blame", values_from = "FR_Sham")}
+\NormalTok{B2<-Blame_FR_PAM[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"2"}\NormalTok{)}
+\NormalTok{B3<-Blame_FR_PAM[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"3"}\NormalTok{)}
+\NormalTok{B3 <-}\StringTok{ }\NormalTok{B3 }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"FR_AS"}\NormalTok{ =}\StringTok{ "FR_Sham"}\NormalTok{)}
+\NormalTok{B4<-Blame_FR_PAM[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"4"}\NormalTok{)}
+\NormalTok{B4 <-}\StringTok{ }\NormalTok{B4 }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"FR_AF"}\NormalTok{ =}\StringTok{ "FR_Sham"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B2}\OperatorTok{$}\NormalTok{FR_Sham) }\OperatorTok{~}\StringTok{ }\NormalTok{B2}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(2, 7, 3, 1), y = c(6, 1, 1, 7, 2, 1, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B2$FR_Sham) by B2$Blame
+## W = 21, p-value = 0.9419
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B3}\OperatorTok{$}\NormalTok{FR_AS) }\OperatorTok{~}\StringTok{ }\NormalTok{B3}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(1, 1, 1, 1, 1, 1, 1, 2, 1, 1), y = c(2, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B3$FR_AS) by B3$Blame
+## W = 17, p-value = 0.5607
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B4}\OperatorTok{$}\NormalTok{FR_AF) }\OperatorTok{~}\StringTok{ }\NormalTok{B4}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(1, 1, 1), y = c(1, 4, 1, 3, 4, 1)): cannot
+## compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B4$FR_AF) by B4$Blame
+## W = 4.5, p-value = 0.217
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Did frustration depend on the Blame factor}
+\NormalTok{Blame_FR <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Condition"}\NormalTok{, }\StringTok{"Blame"}\NormalTok{, }\StringTok{"FR"}\NormalTok{)]}
+\CommentTok{#Control}
+\NormalTok{B_FR1<-Blame_FR[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"1"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_FR1}\OperatorTok{$}\NormalTok{FR) }\OperatorTok{~}\StringTok{ }\NormalTok{B_FR1}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(6, 2, 1, 4, 2, 4), y = c(5, 5, 5, 1, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_FR1$FR) by B_FR1$Blame
+## W = 18.5, p-value = 0.7717
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sham}
+\NormalTok{B_FR2<-Blame_FR[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"2"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_FR2}\OperatorTok{$}\NormalTok{FR) }\OperatorTok{~}\StringTok{ }\NormalTok{B_FR2}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(5, 3, 1, 2), y = c(5, 1, 2, 4, 2, 4, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_FR2$FR) by B_FR2$Blame
+## W = 14.5, p-value = 0.4696
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#AS}
+\NormalTok{B_FR3<-Blame_FR[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"3"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_FR3}\OperatorTok{$}\NormalTok{FR) }\OperatorTok{~}\StringTok{ }\NormalTok{B_FR3}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(5, 3, 1, 5, 1, 5, 2, 5, 4, 4), y = c(4, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_FR3$FR) by B_FR3$Blame
+## W = 25.5, p-value = 0.4696
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#AF}
+\NormalTok{B_FR4<-Blame_FR[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"4"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_FR4}\OperatorTok{$}\NormalTok{FR) }\OperatorTok{~}\StringTok{ }\NormalTok{B_FR4}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(2, 4, 3), y = c(1, 4, 2, 2, 4, 4)): cannot
+## compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_FR4$FR) by B_FR4$Blame
+## W = 9.5, p-value = 1
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Did perceived control with the PAMs depend on the Blame factor within individual PAMs}
+\NormalTok{Blame_PC_PAM <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Condition"}\NormalTok{, }\StringTok{"Blame"}\NormalTok{, }\StringTok{"PC_Sham"}\NormalTok{, }\StringTok{"PC_AS"}\NormalTok{, }\StringTok{"PC_AF"}\NormalTok{)]}
+\CommentTok{#moving everything into one column}
+\NormalTok{Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_AS), Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_Sham, Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_AS)}
+\NormalTok{Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_AS<-}\OtherTok{NULL}
+\NormalTok{Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_Sham<-}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_AF), Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_Sham, Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_AF)}
+\NormalTok{Blame_PC_PAM}\OperatorTok{$}\NormalTok{PC_AF<-}\OtherTok{NULL}
+\NormalTok{C2<-Blame_PC_PAM[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"2"}\NormalTok{)}
+\NormalTok{C3<-Blame_PC_PAM[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"3"}\NormalTok{)}
+\NormalTok{C3 <-}\StringTok{ }\NormalTok{C3 }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"PC_AS"}\NormalTok{ =}\StringTok{ "PC_Sham"}\NormalTok{)}
+\NormalTok{C4<-Blame_PC_PAM[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"4"}\NormalTok{)}
+\NormalTok{C4 <-}\StringTok{ }\NormalTok{C4 }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\StringTok{"PC_AF"}\NormalTok{ =}\StringTok{ "PC_Sham"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(C2}\OperatorTok{$}\NormalTok{PC_Sham) }\OperatorTok{~}\StringTok{ }\NormalTok{C2}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(4, 1, 1, 3), y = c(1, 2, 7, 1, 1, 4, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(C2$PC_Sham) by C2$Blame
+## W = 19.5, p-value = 1
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(C3}\OperatorTok{$}\NormalTok{PC_AS) }\OperatorTok{~}\StringTok{ }\NormalTok{C3}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(4, 5, 5, 4, 1, 3, 4, 6, 3, 6), y = c(4, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(C3$PC_AS) by C3$Blame
+## W = 23, p-value = 0.7186
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(C4}\OperatorTok{$}\NormalTok{PC_AF) }\OperatorTok{~}\StringTok{ }\NormalTok{C4}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(5, 6, 3), y = c(3, 1, 2, 1, 1, 1)): cannot
+## compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(C4$PC_AF) by C4$Blame
+## W = 17.5, p-value = 0.03021
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Did perceived control depend on the Blame factor}
+\NormalTok{Blame_PC <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Condition"}\NormalTok{, }\StringTok{"Blame"}\NormalTok{, }\StringTok{"PC"}\NormalTok{)]}
+\CommentTok{#Control}
+\NormalTok{B_PC1<-Blame_PC[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"1"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_PC1}\OperatorTok{$}\NormalTok{PC) }\OperatorTok{~}\StringTok{ }\NormalTok{B_PC1}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(2, 6, 7, 5, 5, 5), y = c(4, 6, 4, 1, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_PC1$PC) by B_PC1$Blame
+## W = 31, p-value = 0.167
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sham}
+\NormalTok{B_PC2<-Blame_PC[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"2"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_PC2}\OperatorTok{$}\NormalTok{PC) }\OperatorTok{~}\StringTok{ }\NormalTok{B_PC2}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(3, 5, 7, 5), y = c(3, 6, 6, 7, 5, 4, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_PC2$PC) by B_PC2$Blame
+## W = 24, p-value = 0.6127
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#AS}
+\NormalTok{B_PC3<-Blame_PC[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"3"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_PC3}\OperatorTok{$}\NormalTok{PC) }\OperatorTok{~}\StringTok{ }\NormalTok{B_PC3}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(6, 6, 6, 4, 6, 6, 4, 6, 3, 5), y = c(5, :
+## cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_PC3$PC) by B_PC3$Blame
+## W = 32, p-value = 0.08589
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#AF}
+\NormalTok{B_PC4<-Blame_PC[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{Blame}\OperatorTok{==}\StringTok{"neutral"} \OperatorTok{&}\StringTok{ }\NormalTok{Condition}\OperatorTok{==}\StringTok{"4"}\NormalTok{)}
+\KeywordTok{wilcox.test}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(B_PC4}\OperatorTok{$}\NormalTok{PC) }\OperatorTok{~}\StringTok{ }\NormalTok{B_PC4}\OperatorTok{$}\NormalTok{Blame)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(x = c(5, 5, 5), y = c(6, 5, 4, 5, 4, 2)): cannot
+## compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  as.numeric(B_PC4$PC) by B_PC4$Blame
+## W = 12, p-value = 0.4773
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Friedman test checking whether Blame attribution changed depending on the playthrough order}
+\CommentTok{#Data prep}
+\NormalTok{Blame_Conditions_or_Playthrough <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Blame"}\NormalTok{,}\StringTok{"Playthrough_Order"}\NormalTok{,}\StringTok{"Condition"}\NormalTok{)]}
+\CommentTok{#Change Blame attribution from char to numeric}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "neutral"}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "Self"}\NormalTok{] <-}\StringTok{ }\DecValTok{1}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "System"}\NormalTok{] <-}\StringTok{ }\DecValTok{-1}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame<-}\KeywordTok{as.numeric}\NormalTok{(Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame)}
+\CommentTok{#Get rid of the Condition column}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Condition<-}\OtherTok{NULL}
+\CommentTok{#Turn format of the data to wide}
+\NormalTok{Blame_Conditions_or_Playthrough <-}\StringTok{ }\KeywordTok{spread}\NormalTok{(Blame_Conditions_or_Playthrough,Playthrough_Order, Blame)}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{ID<-}\OtherTok{NULL}
+\KeywordTok{friedman.test}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(Blame_Conditions_or_Playthrough))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Friedman rank sum test
+## 
+## data:  as.matrix(Blame_Conditions_or_Playthrough)
+## Friedman chi-squared = 5.3372, df = 3, p-value = 0.1487
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{friedmanmc}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(Blame_Conditions_or_Playthrough))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Multiple comparisons between groups after Friedman test 
+## p.value: 0.05 
+## Comparisons
+##     obs.dif critical.dif difference
+## 1-2    11.5     19.26711      FALSE
+## 1-3     3.0     19.26711      FALSE
+## 1-4     7.5     19.26711      FALSE
+## 2-3     8.5     19.26711      FALSE
+## 2-4     4.0     19.26711      FALSE
+## 3-4     4.5     19.26711      FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Friedman test checking whether Blame attribution changed between different conditions}
+\CommentTok{#Data prep}
+\NormalTok{Blame_Conditions_or_Playthrough <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Blame"}\NormalTok{,}\StringTok{"Playthrough_Order"}\NormalTok{,}\StringTok{"Condition"}\NormalTok{)]}
+\CommentTok{#Change Blame attribution from char to numeric}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "neutral"}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "Self"}\NormalTok{] <-}\StringTok{ }\DecValTok{1}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "System"}\NormalTok{] <-}\StringTok{ }\DecValTok{-1}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame<-}\KeywordTok{as.numeric}\NormalTok{(Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Blame)}
+\CommentTok{#Get rid of the Plauthrough_Order column}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{Playthrough_Order<-}\OtherTok{NULL}
+\CommentTok{#Turn format of the data to wide}
+\NormalTok{Blame_Conditions_or_Playthrough <-}\StringTok{ }\KeywordTok{spread}\NormalTok{(Blame_Conditions_or_Playthrough,Condition, Blame)}
+\NormalTok{Blame_Conditions_or_Playthrough}\OperatorTok{$}\NormalTok{ID<-}\OtherTok{NULL}
+\KeywordTok{friedman.test}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(Blame_Conditions_or_Playthrough))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Friedman rank sum test
+## 
+## data:  as.matrix(Blame_Conditions_or_Playthrough)
+## Friedman chi-squared = 8.7907, df = 3, p-value = 0.03221
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{friedmanmc}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(Blame_Conditions_or_Playthrough))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Multiple comparisons between groups after Friedman test 
+## p.value: 0.05 
+## Comparisons
+##     obs.dif critical.dif difference
+## 1-2       6     19.26711      FALSE
+## 1-3       9     19.26711      FALSE
+## 1-4       3     19.26711      FALSE
+## 2-3      15     19.26711      FALSE
+## 2-4       3     19.26711      FALSE
+## 3-4      12     19.26711      FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Blame_Condition_wilcox_model <-}\StringTok{ }\KeywordTok{wilcox.test}\NormalTok{(Blame_Conditions_or_Playthrough}\OperatorTok{$}\StringTok{"2"}\NormalTok{, Blame_Conditions_or_Playthrough}\OperatorTok{$}\StringTok{"3"}\NormalTok{, }\DataTypeTok{paired=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{correct=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(Blame_Conditions_or_Playthrough$"2",
+## Blame_Conditions_or_Playthrough$"3", : cannot compute exact p-value with ties
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in wilcox.test.default(Blame_Conditions_or_Playthrough$"2",
+## Blame_Conditions_or_Playthrough$"3", : cannot compute exact p-value with zeroes
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Blame_Condition_wilcox_model}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon signed rank test
+## 
+## data:  Blame_Conditions_or_Playthrough$"2" and Blame_Conditions_or_Playthrough$"3"
+## V = 7.5, p-value = 0.03565
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rFromWilcox}\NormalTok{(Blame_Condition_wilcox_model, }\DecValTok{32}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Blame_Conditions_or_Playthrough$"2" and Blame_Conditions_or_Playthrough$"3" Effect Size, r =  -0.3713907
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Boxplots for Blame attribution depending on the condition}
+\NormalTok{Blame_Conditions <-}\StringTok{ }\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"Blame"}\NormalTok{,}\StringTok{"Condition"}\NormalTok{)]}
+\CommentTok{#Change Blame attribution from char to numeric}
+\NormalTok{Blame_Conditions}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "neutral"}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
+\NormalTok{Blame_Conditions}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "Self"}\NormalTok{] <-}\StringTok{ }\DecValTok{1}
+\NormalTok{Blame_Conditions}\OperatorTok{$}\NormalTok{Blame[Blame_Conditions}\OperatorTok{$}\NormalTok{Blame }\OperatorTok{==}\StringTok{ "System"}\NormalTok{] <-}\StringTok{ }\DecValTok{-1}
+\NormalTok{Blame_Conditions}\OperatorTok{$}\NormalTok{Blame<-}\KeywordTok{as.numeric}\NormalTok{(Blame_Conditions}\OperatorTok{$}\NormalTok{Blame)}
+\NormalTok{BC1<-Blame_Conditions[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{( Condition}\OperatorTok{==}\StringTok{"1"}\NormalTok{)}
+\NormalTok{BC1}\OperatorTok{$}\NormalTok{Condition<-}\OtherTok{NULL}
+\NormalTok{BC2<-Blame_Conditions[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{( Condition}\OperatorTok{==}\StringTok{"2"}\NormalTok{)}
+\NormalTok{BC2}\OperatorTok{$}\NormalTok{Condition<-}\OtherTok{NULL}
+\NormalTok{BC3<-Blame_Conditions[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{( Condition}\OperatorTok{==}\StringTok{"3"}\NormalTok{)}
+\NormalTok{BC3}\OperatorTok{$}\NormalTok{Condition<-}\OtherTok{NULL}
+\NormalTok{BC4<-Blame_Conditions[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]}\OperatorTok{%>%}\KeywordTok{filter}\NormalTok{( Condition}\OperatorTok{==}\StringTok{"4"}\NormalTok{)}
+\NormalTok{BC4}\OperatorTok{$}\NormalTok{Condition<-}\OtherTok{NULL}
+\NormalTok{BC1_var <-}\StringTok{ }\KeywordTok{c}\NormalTok{(BC1}\OperatorTok{$}\NormalTok{Blame)}
+\NormalTok{BC2_var <-}\StringTok{ }\KeywordTok{c}\NormalTok{(BC2}\OperatorTok{$}\NormalTok{Blame)}
+\NormalTok{BC3_var <-}\StringTok{ }\KeywordTok{c}\NormalTok{(BC3}\OperatorTok{$}\NormalTok{Blame)}
+\NormalTok{BC4_var <-}\StringTok{ }\KeywordTok{c}\NormalTok{(BC4}\OperatorTok{$}\NormalTok{Blame)}
+\NormalTok{Blame_Conditions_long <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{coding_var=} \KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"1 - Control"}\NormalTok{, }\StringTok{"2 - Sham"}\NormalTok{, }\StringTok{"3 - AS"}\NormalTok{, }\StringTok{"4 - AF"}\NormalTok{), }\DataTypeTok{each =} \DecValTok{16}\NormalTok{), }\DataTypeTok{score =} \KeywordTok{c}\NormalTok{(BC1_var, BC2_var, BC3_var, BC4_var))}
+\NormalTok{Blame_Conditions <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(Blame_Conditions_long, }\KeywordTok{aes}\NormalTok{(coding_var, score), }\DataTypeTok{inherit.aes =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{Blame_Conditions }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_jitter}\NormalTok{(}\DataTypeTok{width =} \FloatTok{0.3}\NormalTok{, }\DataTypeTok{height =} \FloatTok{0.05}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{""}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Blame scores"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{MTA201039-RStudio-script_files/figure-latex/unnamed-chunk-1-9.pdf}
+
+\end{document}
