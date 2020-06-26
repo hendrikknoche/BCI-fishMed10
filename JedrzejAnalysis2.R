@@ -139,7 +139,7 @@ scatter_FR_PC_data$Condition<-ifelse(is.na(scatter_FR_PC_data$Condition),"3.AF",
 scatter_FR_PC <-ggplot(scatter_FR_PC_data, aes(PC, FR, color=Blame, shape=Blame))
 scatter_FR_PC + geom_point() + xlim(1,7) + ylim(1,7) + geom_smooth(method=lm, se=FALSE) +geom_jitter(width = .1)+ labs(x="Perceived Control", y="Frustration")+theme_bw()
 #Sgnificance Test for Linear Regression
-FR_PC.lm = lm(PC ~ FR, data=scatter_FR_PC_data)
+FR_PC.lm = lm(PC ~ FR*Condition, data=scatter_FR_PC_data)
 summary(FR_PC.lm)
 lm.beta(FR_PC.lm)
 #Sgnificance Test for Linear Regression for Sham
