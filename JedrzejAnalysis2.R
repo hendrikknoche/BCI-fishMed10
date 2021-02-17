@@ -57,11 +57,14 @@ data$Condition<-as.factor(data$Condition)
 # Violin plot of PC condition data #
 ####################################
 
-data_sham = data %>% filter(!is.na(PC_Sham)) %>% mutate(Condition = "OverrideInput", PCValue = (PC_Sham-1)/6)
-data_mf = data %>% filter(!is.na(PC_AF)) %>% mutate(Condition = "MediateFailure", PCValue = (PC_AF-1)/6)
+data_sham = data %>% filter(!is.na(PC_Sham)) %>% mutate(Condition = "InputOverride", PCValue = (PC_Sham-1)/6)
+data_mf = data %>% filter(!is.na(PC_AF)) %>% mutate(Condition = "MitigateFailure", PCValue = (PC_AF-1)/6)
 data_as = data %>% filter(!is.na(PC_AS)) %>% mutate(Condition = "AugmentSuccess", PCValue = (PC_AS-1)/6)
+data_R_pc = data %>% filter(!is.na(R_PC)) %>% mutate(Condition = "Success", PCValue = (R_PC-1/6))
+data_T_pc = data %>% filter(!is.na(T_PC)) %>% mutate(Condition = "Failure", PCValue = (T_PC-1/6))
+data_E_pc = data %>% filter(!is.na(E_PC)) %>% mutate(Condition = "Escape", PCValue = (E_PC-1/6))
 
-data_comb = data_sham %>% bind_rows(data_mf) %>% bind_rows(data_as)
+data_comb = data_sham %>% bind_rows(data_mf) %>% bind_rows(data_as) %>% bind_rows(data_R_pc) %>% bind_rows(data_T_pc) %>% bind_rows(data_E_pc)
 
 data_error <- data_comb %>% dplyr::group_by(Condition) %>%
   dplyr::summarise(numberOfParticipants = length(unique(data_comb$ID)),
@@ -70,7 +73,7 @@ data_error <- data_comb %>% dplyr::group_by(Condition) %>%
                    perc_error_left = 5-perc_error,
                    perc_error_right = 5+perc_error) 
 
-fig <- vistemplate %>% add_trace(data = data_comb, x=~as.factor(Condition), y=~jitter(PCValue,amount=.03), jitter=.35, color=I('darkgray'), width=1, points='all', pointpos=0, type="violin", soanmode="soft", bandwidth=.09) %>%
+vistemplate %>% add_trace(data = data_comb, x=~as.factor(Condition), y=~jitter(PCValue,amount=.05), jitter=.35, color=I('darkgray'), width=1, points='all', pointpos=0, type="violin", soanmode="soft", bandwidth=.09) %>%
   add_trace(data=data_error, x=~as.factor(Condition), y=~median, type="scatter", mode="markers", color=I('black'), error_y=list(array=~perc_error)) %>%
   layout(showlegend=FALSE, yaxis = list(range=c(-0.1,1.1), title="Perceived Control", violinmode = 'overlay', violingap = 0), xaxis=list(title=""))
 
@@ -79,8 +82,8 @@ orca(fig, "perceived-conditions.pdf", width=400, height=350)
 ####################################
 # Violin plot of FR condition data #
 ####################################
-FRdata_sham = data %>% filter(!is.na(FR_Sham)) %>% mutate(Condition = "OverrideInput", FRValue = (FR_Sham-1)/6)
-FRdata_mf = data %>% filter(!is.na(FR_AF)) %>% mutate(Condition = "MediateFailure", FRValue = (FR_AF-1)/6)
+FRdata_sham = data %>% filter(!is.na(FR_Sham)) %>% mutate(Condition = "InputOverride", FRValue = (FR_Sham-1)/6)
+FRdata_mf = data %>% filter(!is.na(FR_AF)) %>% mutate(Condition = "MitigateFailure", FRValue = (FR_AF-1)/6)
 FRdata_as = data %>% filter(!is.na(FR_AS)) %>% mutate(Condition = "AugmentSuccess", FRValue = (FR_AS-1)/6)
 
 FRdata_comb = FRdata_sham %>% bind_rows(FRdata_mf) %>% bind_rows(FRdata_as)
@@ -98,11 +101,33 @@ FRdata_error <- FRdata_comb %>% dplyr::group_by(Condition) %>%
                    perc_error_left = 5-perc_error,
                    perc_error_right = 5+perc_error) 
 
-vistemplate %>% add_trace(data = FRdata_comb, x=~as.factor(Condition), y=~jitter(FRValue,amount=.03), jitter=.35, color=I('darkgray'), width=1, points='all', pointpos=0, type="violin", soanmode="soft", bandwidth=.09) %>%
+fig <- vistemplate %>% add_trace(data = FRdata_comb, x=~as.factor(Condition), y=~jitter(FRValue,amount=.03), jitter=.35, color=I('darkgray'), width=1, points='all', pointpos=0, type="violin", soanmode="soft", bandwidth=.09) %>%
   add_trace(data=FRdata_error, x=~as.factor(Condition), y=~median, type="scatter", mode="markers", color=I('black'), error_y=list(array=~perc_error)) %>%
   layout(showlegend=FALSE, yaxis = list(range=c(-0.1,1.1), title="Frustration", violinmode = 'overlay', violingap = 0), xaxis=list(title=""))
 
 orca(fig, "frustration-conditions.pdf", width=400, height=350)
+
+#######
+# ICC #
+#######
+
+
+D_icc <- data %>% dplyr::select(ID, PC, Condition) %>% pivot_wider(names_from = ID, values_from = PC) %>%
+  ungroup() %>% dplyr::select(-Condition)
+psych::ICC(D_icc)
+
+D_icc <- data %>% dplyr::select(ID, FR, Condition) %>% pivot_wider(names_from = ID, values_from = FR) %>%
+  ungroup() %>% dplyr::select(-Condition)
+psych::ICC(D_icc)
+
+D_icc <- data_comb %>% dplyr::select(ID, PCValue, Condition) %>% pivot_wider(names_from = ID, values_from = PCValue) %>%
+  ungroup() %>% dplyr::select(-Condition)
+psych::ICC(D_icc)
+
+D_icc <- FRdata_comb %>% dplyr::select(ID, FRValue, Condition) %>% pivot_wider(names_from = ID, values_from = FRValue) %>%
+  ungroup() %>% dplyr::select(-Condition)
+psych::ICC(D_icc)
+
 
 ##############
 # Wilcox etc #
